@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "title": "Shampoo",
+        "description": "Shampoo para todo tipo de cabello. Enriquecido con vitaminas A, B y C.",
+        "category":"bar",
+        "price": 2670.00,
+        "pictureUrl": "https://loremflickr.com/320/240?random=1"
+    },
+    {
+        "id": 2,
+        "title": "Acondicionador",
+        "description": "Acondicionador hidratante para cabello seco y dañado. Con aceite de argán.",
+        "category":"bar",
+        "price": 38050,
+        "pictureUrl": "https://loremflickr.com/320/240?random=2"
+    },
+    {
+        "id": 3,
+        "title": "Jabón líquido",
+        "description": "Jabón líquido antibacterial. Fragancia fresca de limón.",
+        "category":"bar",
+        "price": 1830,
+        "pictureUrl": "https://loremflickr.com/320/240?random=3"
+    },
+    {
+        "id": 4,
+        "title": "Pasta dental",
+        "description": "Pasta dental blanqueadora con fluoruro. Protección contra caries.",
+        "category":"bebidas",
+        "price": 2350,
+        "pictureUrl": "https://loremflickr.com/320/240?random=4"
+    },
+    {
+        "id": 5,
+        "title": "Crema facial",
+        "description": "Crema facial hidratante con filtro solar SPF 30. Textura ligera y de rápida absorción.",
+        "category":"bebidas",
+        "price": 6530,
+        "pictureUrl": "https://via.placeholder.com/150"
+    },
+    {
+        "id": 6,
+        "title": "Desodorante",
+        "description": "Desodorante roll-on para todo el día. Sin alcohol y con aroma a lavanda.",
+        "category":"bebidas",
+        "price": 1930,
+        "pictureUrl": "https://via.placeholder.com/150"
+    },
+    {
+        "id": 7,
+        "title": "Pasta dental",
+        "description": "Pasta dental blanqueadora con fluoruro. Protección contra caries.",
+        "category":"cigarrillos",
+        "price": 2350,
+        "pictureUrl": "https://loremflickr.com/320/240?random=4"
+    },
+    {
+        "id": 8,
+        "title": "Crema facial",
+        "description": "Crema facial hidratante con filtro solar SPF 30. Textura ligera y de rápida absorción.",
+        "category":"cigarrillos",
+        "price": 6530,
+        "pictureUrl": "https://via.placeholder.com/150"
+    },
+    {
+        "id": 9,
+        "title": "Desodorante",
+        "description": "Desodorante roll-on para todo el día. Sin alcohol y con aroma a lavanda.",
+        "category":"cigarrillos",
+        "price": 1930,
+        "pictureUrl": "https://via.placeholder.com/150"
+    }
+]

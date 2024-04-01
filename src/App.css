@@ -1,0 +1,16 @@
+#cart-widget > span {
+  color: yellow;
+  padding-left: 1rem;
+  font-weight: 900;
+}
+
+.nav-link {
+  color: white !important; /* Establece el color de las letras en blanco */
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
