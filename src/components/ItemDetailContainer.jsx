@@ -1,61 +1,44 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
-import Container from 'react-bootstrap/Container';
+import { getFirestore, getDoc, doc } from 'firebase/firestore';
 
 import please_wait from '../assets/please-wait.gif';
 
-import data from '../data/products.json';
+import { ItemDetail } from './ItemDetail';
 
 export const ItemDetailContainer = () => {
   const [product, setProduct] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
-  const { id } = useParams();
+  const { itemId } = useParams();
 
   useEffect(() => {
-    // Simulando una promesa con un setTimeout de 2 segundos
-    const fetchData = () => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(data), 2000);
-      });
-    };
+    const db = getFirestore();
+    const refDoc = doc(db, 'products', itemId);
 
-    setIsLoading(true);
-
-    fetchData()
-      .then((response) => {
-        const filtered = response.find((p) => p.id === Number(id));
-        // Actualizar el estado con los datos de productos después de que se resuelva la promesa
-        setProduct(filtered);
+    getDoc(refDoc)
+      .then((snapshot) => {
+        if (snapshot.size === 0) {
+          setProduct(null);
+        } else {
+          setProduct({ id: snapshot.id, ...snapshot.data() });
+        }
       })
-      .catch((error) => {
-        console.error('Error al obtener los datos:', error);
-      })
-      .finally(() => {
-        setIsLoading(false); // Finalizar la carga de datos
-      });
-  }, []);
+      .catch((e) => {
+        console.log(1, e);
+      }),
+      [itemId];
+  });
 
-  // useEffect(() => {
-  //   setProducts(data); // Actualizar el estado con los datos de productos solo una vez al montar el componente
-  // }, []);
-
-//   if (!product) return (<div><img src={please_wait} alt="Loading..." /></div>)
   return (
-    <>
-      <Container className="mt-4">
-        {isLoading ? (
-          <div className="loading-container">
-            <img src={please_wait} alt="Loading..." />
-          </div>
-        ) : (
-          <div>
-            <h1>{product.title}</h1>
-            <img src={product.pictureUrl} alt="Imágen del Producto" />
-          </div>
-        )}
-      </Container>
-    </>
+    <div>
+      {product ? (
+        <ItemDetail product={product} />
+      ) : (
+        <div className="loading-container">
+          <img src={please_wait} alt="Loading..." />
+        </div>
+      )}
+    </div>
   );
 };

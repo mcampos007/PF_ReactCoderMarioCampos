@@ -2,11 +2,8 @@ import Row from 'react-bootstrap/Row';
 
 import { Item } from './Item';
 
-export const ItemList = (props) => {
-  const { products } = props;
-
+export const ItemList = ({ products }) => {
   return (
-    //<div className='d-flex'>
     <Row>
       {products.map((product) => (
         <Item key={product.id} product={product} />

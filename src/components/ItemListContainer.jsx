@@ -1,49 +1,51 @@
 import { useState, useEffect } from 'react';
-
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 import Container from 'react-bootstrap/Container';
-import { ItemList } from './ItemList';
 import { useParams } from 'react-router-dom';
 
+import { ItemList } from './ItemList';
 import please_wait from '../assets/please-wait.gif';
-import data from '../data/products.json';
 
 export const ItemListContainer = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { id } = useParams();
+  const { categoryId } = useParams();
 
   useEffect(() => {
-    // Simulando una promesa con un setTimeout de 2 segundos
-    const fetchData = () => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(data), 2000);
-      });
-    };
+    const db = getFirestore();
+    let refCollection;
 
-    setIsLoading(true); // Iniciar la carga de datos
+    if (!categoryId) {
+      refCollection = collection(db, 'products');
+    } else {
+      refCollection = query(
+        collection(db, 'products'),
+        where('category', '==', categoryId)
+      );
+    }
 
-    fetchData()
-      .then((response) => {
-        // Actualizar el estado con los datos de productos después de que se resuelva la promesa
-        if (!id) {
-          setProducts(response);
-        } else {
-          const filtered = data.filter((p) => p.category === id);
-          setProducts(filtered);
+    getDocs(refCollection)
+      .then((snapshot) => {
+        if (snapshot.size === 0) setProducts([]);
+        else {
+          setProducts(
+            snapshot.docs.map((doc) => {
+              return { id: doc.id, ...doc.data() };
+            })
+          );
         }
       })
-      .catch((error) => {
-        console.error('Error al obtener los datos:', error);
-      })
       .finally(() => {
-        setIsLoading(false); // Finalizar la carga de datos
+        setIsLoading(false);
       });
-  }, [id]);
-
-  // useEffect(() => {
-  //   setProducts(data); // Actualizar el estado con los datos de productos solo una vez al montar el componente
-  // }, []);
+  }, [categoryId]);
 
   return (
     <>
@@ -59,5 +61,3 @@ export const ItemListContainer = () => {
     </>
   );
 };
-
-// <ItemList products={products}/>
