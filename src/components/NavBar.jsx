@@ -10,14 +10,14 @@ export const NavBar = () => {
   return (
     <Navbar bg="dark" className="container-fluid" data-bs-theme="dark">
       <Container>
-        <Navbar.Brand href="/">
+        <Nav.Link to="/" as={NavLink}>
           <img
             src={logo}
             height="60"
             className="d-inline-block align-top"
             alt="logo"
           />
-        </Navbar.Brand>
+        </Nav.Link>
         <Nav className="me-auto">
           <Nav.Link to="/category/bar" as={NavLink}>
             BAR

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getFirestore, getDoc, doc } from 'firebase/firestore';
 
 import please_wait from '../assets/please-wait.gif';
+import item_notfound from '../assets/404_Product.png';
 
 import { ItemDetail } from './ItemDetail';
 
@@ -22,6 +23,7 @@ export const ItemDetailContainer = () => {
           setProduct(null);
         } else {
           setProduct({ id: snapshot.id, ...snapshot.data() });
+          // console.log(1, product);
         }
       })
       .catch((e) => {
@@ -30,15 +32,25 @@ export const ItemDetailContainer = () => {
       [itemId];
   });
 
-  return (
-    <div>
-      {product ? (
-        <ItemDetail product={product} />
-      ) : (
+  if (!product) {
+    return (
+      <div className="loading-container">
+        <img src={please_wait} alt="Loading..." />
+      </div>
+    );
+  } else {
+    if (!product.title) {
+      return (
         <div className="loading-container">
-          <img src={please_wait} alt="Loading..." />
+          <img src={item_notfound} alt="Producto No encontrado..." />
         </div>
-      )}
-    </div>
-  );
+      );
+    } else {
+      return (
+        <div>
+          <ItemDetail product={product} />
+        </div>
+      );
+    }
+  }
 };

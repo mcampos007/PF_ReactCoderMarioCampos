@@ -1,6 +1,6 @@
 import Row from 'react-bootstrap/Row';
 
-import { Item } from './Item';
+import { Item } from './Description';
 
 export const ItemList = ({ products }) => {
   return (

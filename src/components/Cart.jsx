@@ -2,19 +2,15 @@ import { useContext, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
 import { Button, Container } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import { Row, Col } from 'react-bootstrap';
+
 import Nav from 'react-bootstrap/Nav';
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import { MdDelete } from 'react-icons/md';
 
-import {
-  getFirestore,
-  doc,
-  updateDoc,
-  collection,
-  addDoc,
-} from 'firebase/firestore';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
 import { CartContext } from '../contexts/CartContext';
 import { CartItem } from './CartItem';
@@ -42,11 +38,14 @@ export const Cart = () => {
       };
     });
   };
+
   const handleSubmit = () => {
     const order = {
       buyer: values,
       items: items,
       total: total,
+      fecha: new Date(),
+      estado: 'generada', // Agrega el estado "generada"
     };
     const db = getFirestore();
     const orderColection = collection(db, 'orders');
@@ -68,12 +67,7 @@ export const Cart = () => {
         <Alert key="warning" variant="warning">
           {mensaje}
         </Alert>
-        <Button
-          variant="primary"
-          as={NavLink}
-          to="/item"
-          className="btn-primary"
-        >
+        <Button variant="primary" as={NavLink} to="/" className="btn-primary">
           Productos
         </Button>
       </Container>
@@ -114,45 +108,62 @@ export const Cart = () => {
       </Container>
       <Container className="my-5">
         <Form>
-          <Form.Group className="mb-4" controlId="formNombre">
-            <Form.Label>Nombre</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Nombre del Comprador"
-              name="name"
-              value={values.name}
-              onChange={handleChange}
-            />
-            <Form.Text className="text-muted">
-              Ingrese el nombre del comprador.
-            </Form.Text>
-          </Form.Group>
-          <Form.Group className="mb-4" controlId="formTelefono">
-            <Form.Label>Telefono</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Teléfono del Comprador"
-              name="phone"
-              value={values.phone}
-              onChange={handleChange}
-            />
-            <Form.Text className="text-muted">
-              Ingrese el teléfono del comprador.
-            </Form.Text>
-          </Form.Group>
-          <Form.Group className="mb-4" controlId="formEmail">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Ingrese email"
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-            />
-            <Form.Text className="text-muted">
-              Por favor verifique que sea un email correcto
-            </Form.Text>
-          </Form.Group>
+          <Row className="mb-4">
+            <Form.Group as={Col} controlId="formNombre">
+              <Form.Label>Nombre</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Nombre del Comprador"
+                name="name"
+                value={values.name}
+                onChange={handleChange}
+              />
+              <Form.Text className="text-muted">
+                Ingrese el nombre del comprador.
+              </Form.Text>
+            </Form.Group>
+            <Form.Group as={Col} controlId="formTelefono">
+              <Form.Label>Telefono</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Teléfono del Comprador"
+                name="phone"
+                value={values.phone}
+                onChange={handleChange}
+              />
+              <Form.Text className="text-muted">
+                Ingrese el teléfono del comprador.
+              </Form.Text>
+            </Form.Group>
+          </Row>
+          <Row className="mb-4">
+            <Form.Group as={Col} controlId="formEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Ingrese email"
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+              />
+              <Form.Text className="text-muted">
+                Por favor verifique que sea un email correcto
+              </Form.Text>
+            </Form.Group>
+            <Form.Group as={Col} controlId="formEmailCtrl">
+              <Form.Label>Repita Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Repita email"
+                name="emailCtrl"
+                value={values.emailCtrl}
+                onChange={handleChange}
+              />
+              <Form.Text className="text-muted">
+                {/* Puedes agregar texto de ayuda aquí si es necesario */}
+              </Form.Text>
+            </Form.Group>
+          </Row>
         </Form>
       </Container>
 

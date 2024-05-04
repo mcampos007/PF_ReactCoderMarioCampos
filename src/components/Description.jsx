@@ -18,7 +18,14 @@ export function Item({ product }) {
           paddingTop: 5,
         }}
       >
-        <Card.Img variant="top" src={product.pictureUrl} />
+        <Card.Img
+          variant="top"
+          src={product.pictureUrl}
+          style={{
+            maxHeight: '150px', // Ajusta la altura máxima según sea necesario
+            objectFit: 'cover', // Para mantener la relación de aspecto y recortar la imagen si es necesario
+          }}
+        />
         <Card.Body>
           <Card.Title>{product.title}</Card.Title>
           <Card.Text>{product.description}</Card.Text>

@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { CartContext } from '../contexts/CartContext';
-import { ItemCount } from './ItemCount';
+import { ItemCount } from './ItemQuantitySelector';
 
 export const ItemDetail = ({ product }) => {
   const { addItem } = useContext(CartContext);
@@ -15,6 +15,7 @@ export const ItemDetail = ({ product }) => {
     addItem(product, quantity);
     setQuantityAdded(quantity);
   };
+  // console.log(1, product);
 
   return (
     <Container className="mt-4">
