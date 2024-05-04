@@ -15,8 +15,6 @@ Este proyecto es el trabajajo final del curso de React JS de CoderHouse, el mism
 
 ## Características Principales
 
-## Markdown
-
 - **Barra de Navegación:** la misma presenta a la izquierda un logo del ecomerce que permite visualizar una lista de todos los productos disponibles. Además en la parte centras hay tres enlaces que muestran la lista de productos que pertenecen a la catergoría . Y por ultimo a la derecha de la barra de navegación se presenta un ícono que permite visualizar el contenido del "cart" y a la derecha de este una etiqueta con la cantidad de artículos que hay en el "cart"
 - **Visualización de los detalles del producto:** Para cada producto se puede visualizar la información siguiente: "Title, Description, Stock, Price". Junto con esta información se incluye un control que permite seleccionar la cantidad y agregar el producto al "cart". Existe una validación que asegura no permitir ingresar al carrito menos de una unidad o más del stock disponible
 - **Proceso de Confirmación del pedido:** Luego de agregar un producto al carrito o visualizar el carrito en la barra de navegación se puede acceder al proceso de confirmación de la Orden. En esta pantalla se puede visualizar el detalle consolidado del pedido y la posibilidad de ingresar los (Nombre, telefono e email) y luego confirmar la orden. Al finalizar el proceso se visualizará el "ID" asignado por "Firebase". Junto con el proceso de confirmación se realizar la actualización del stock de cada item del pedido.!
