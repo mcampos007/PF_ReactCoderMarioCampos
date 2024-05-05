@@ -10,7 +10,14 @@ import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import { MdDelete } from 'react-icons/md';
 
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  updateDoc,
+} from 'firebase/firestore';
 
 import { CartContext } from '../contexts/CartContext';
 import { CartItem } from './CartItem';
@@ -40,24 +47,58 @@ export const Cart = () => {
   };
 
   const handleSubmit = () => {
-    const order = {
-      buyer: values,
-      items: items,
-      total: total,
-      fecha: new Date(),
-      estado: 'generada', // Agrega el estado "generada"
-    };
     const db = getFirestore();
-    const orderColection = collection(db, 'orders');
-    addDoc(orderColection, order)
-      .then(({ id }) => {
-        if (id) {
-          setMensaje(`El Id de su Orden es: ${id}`);
+    const productsCollection = collection(db, 'products');
+
+    // Creamos una función para descontar el stock de un producto
+    const updateProductStock = (productId, quantity) => {
+      const productDoc = doc(productsCollection, productId);
+
+      // Obtenemos el producto y actualizamos el stock
+      return getDoc(productDoc).then((productSnapshot) => {
+        const productData = productSnapshot.data();
+        if (productData.stock >= quantity) {
+          const newStock = productData.stock - quantity;
+          return updateDoc(productDoc, { stock: newStock });
+        } else {
+          throw new Error(
+            `Stock insuficiente para el producto: ${productData.title}`
+          );
         }
+      });
+    };
+
+    // Descontar el stock de cada ítem en paralelo
+    const updateStockPromises = items.map((item) =>
+      updateProductStock(item.id, item.quantity)
+    );
+
+    // Esperamos a que todas las promesas se resuelvan
+    Promise.all(updateStockPromises)
+      .then(() => {
+        // Todos los productos se han actualizado correctamente, ahora podemos agregar la orden
+        const order = {
+          buyer: values,
+          items: items,
+          total: total,
+          fecha: new Date(),
+          estado: 'generada', // Agrega el estado "generada"
+        };
+        const orderCollection = collection(db, 'orders');
+        return addDoc(orderCollection, order);
       })
-      .finally(() => {
+      .then((orderDoc) => {
+        // Orden agregada correctamente
+        if (orderDoc.id) {
+          setMensaje(`El Id de su Orden es: ${orderDoc.id}`);
+        }
+        // Limpiamos el carrito y restablecemos los valores del formulario después de agregar la orden
         clear();
         setValues(initialValues);
+      })
+      .catch((error) => {
+        console.error('Error al procesar la orden:', error);
+        // Manejar el error (por ejemplo, mostrar un mensaje de error al usuario)
       });
   };
 
@@ -94,7 +135,7 @@ export const Cart = () => {
                 <td>{item.quantity}</td>
                 <td>{item.price}</td>
                 <td>
-                  <MdDelete />
+                  <MdDelete onClick={() => removeItem(item.id)} />
                 </td>
               </tr>
 

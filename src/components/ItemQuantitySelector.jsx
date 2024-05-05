@@ -50,7 +50,7 @@ export const ItemCount = ({ initial, stock, onAdd }) => {
         <Button variant="primary" size="sm" onClick={increment}>
           +
         </Button>{' '}
-        <Button variant="primary" size="sm">
+        <Button variant="primary" size="sm" disabled={!stock}>
           <img
             src={carticon}
             alt="imagen de carrito"
@@ -93,30 +93,3 @@ export const ItemCount = ({ initial, stock, onAdd }) => {
     </>
   );
 };
-
-//  <div className="d-flex " style={{ padding: '10px' }}>
-//           {/* <div
-//         style={{ padding: '0 10px', color: 'red', fontWeight: 900 }}
-//         onClick={decrement}
-//       >
-//         -
-//       </div> */}
-//           <div>
-//             <Button variant="info" onClick={decrement}>
-//               -
-//             </Button>{' '}
-//           </div>
-//           <Button variant="light" value={quantity}>
-//             {quantity}
-//           </Button>{' '}
-//           <div>
-//             <Button variant="info" onClick={increment}>
-//               +
-//             </Button>{' '}
-//           </div>
-//           <div className="mb-2">
-//             <Button variant="primary" size="sm">
-//               Agregar al Carrito
-//             </Button>{' '}
-//           </div>
-//         </div>
